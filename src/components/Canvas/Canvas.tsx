@@ -14,7 +14,11 @@ interface CanvasProps {
     onDraw: () => void;
 }
 
-const Canvas = forwardRef((props: CanvasProps, ref) => {
+export interface CanvasHandle {
+    savePicture: () => void;
+}
+
+const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
     const {onChange, onDraw} = props;
 
     let canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D;
@@ -37,16 +41,18 @@ const Canvas = forwardRef((props: CanvasProps, ref) => {
     const [nowCanvas, setNowCanvas] = useState("");
     const [erase, setErase] = useState(false);
 
-    useImperativeHandle(ref, () => ({
-        async savePicture() {
-            console.log(canvas.toDataURL());
-            setNowCanvas(canvas.toDataURL());
-            onChange(canvas.toDataURL());
-            const image = new Image();
-            image.src = canvas.toDataURL();
-            ctx.drawImage(image, 0, 0);
-        },
-    }));
+    useImperativeHandle(ref, () => {
+        return {
+            savePicture: async () => {
+                console.log(canvas.toDataURL());
+                setNowCanvas(canvas.toDataURL());
+                onChange(canvas.toDataURL());
+                const image = new Image();
+                image.src = canvas.toDataURL();
+                ctx.drawImage(image, 0, 0);
+            }
+        };
+    }, []);
 
     const selectColor = async (color: string) => {
         let temp = colorCopArr.slice();
@@ -116,6 +122,8 @@ const Canvas = forwardRef((props: CanvasProps, ref) => {
     const innerUseEffect = () => {
         canvas = canvasRef.current!;
         ctx = canvas.getContext("2d")!;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = nowColor;
         ctx.lineWidth = erase ? 10 : 1;
         canvas.addEventListener("mousedown", initDraw);
@@ -167,7 +175,6 @@ const FlexColumnWrapper = style.div`
 `;
 
 const FlexRowWrapper = style.div`
-    width: 100vw;
     display: flex;
     flex-direction: Row;
 `;

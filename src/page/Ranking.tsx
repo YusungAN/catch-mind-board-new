@@ -5,39 +5,38 @@ import { PostRankingItem, ScoreRankingItem } from "../api/response";
 import { getPostRanking, getScoreRanking } from "../api/ranking";
 
 function Ranking() {
-    const [ranking, setRanking] = useState<PostRankingItem[] | ScoreRankingItem[]>();
+    const [postRanking, setPostRanking] = useState<PostRankingItem[]>();
+    const [scoreRanking, setScoreRanking] = useState<ScoreRankingItem[]>();
     const [isContRank, setIsContRank] = useState<boolean>(true);
 
     const changeTab = () => {
         if (isContRank === false) {
-            setRanking([]);
-            getRanking('postranking'); 
+            // setRanking([]);
+            // getRanking('postranking'); 
             setIsContRank(true); 
         } else {
-            setRanking([]);
+            // setRanking([]);
             setIsContRank(false)
-            getRanking('scoreranking');
+            // getRanking('scoreranking');
         }
 
     }
 
-    const getRanking = async (rankingStr: 'postranking' | 'scoreranking') => {
+    const getRanking = async () => {
         try {
-            let data: PostRankingItem[] | ScoreRankingItem[];
-            if (rankingStr === 'postranking') {
-                data = await getPostRanking();
-            } else {
-                data = await getScoreRanking();
-            }
-            setRanking(data);
+            const postRankingData = await getPostRanking();
+            const scoreRankingData = await getScoreRanking();
+            setPostRanking(postRankingData);
+            setScoreRanking(scoreRankingData);
         } catch (e) {
             console.log(e);
-            setRanking(undefined);
+            setPostRanking(undefined);
+            setScoreRanking(undefined);
         }
     };
 
     useEffect(() => {
-        getRanking('postranking');
+        getRanking();
     }, []);
 
     return (
@@ -52,17 +51,29 @@ function Ranking() {
             ) : (
                 <Text>정답 많이 맞춘 사람</Text>
             )}
-            {ranking ? ranking!.map((item, index) => {
+            {(isContRank && postRanking) ? postRanking!.map((item, index) => {
                 return (
                     <RankingBlock
                         key={index}
                         color={index}
-                        author={isContRank ? item.author : item.userid}
-                        num={isContRank ? item.cnt : item.cnt*10}
+                        author={item.author}
+                        num={item.cnt}
                         nowTab={isContRank}
                     />
                 );
-            }): <div>로딩중...</div>}
+            }): (
+                (!isContRank && scoreRanking) ? scoreRanking!.map((item, index) => {
+                    return (
+                        <RankingBlock
+                            key={index}
+                            color={index}
+                            author={item.userid}
+                            num={item.cnt}
+                            nowTab={isContRank}
+                        />
+                    );
+                }): <div>로딩중...</div>
+            )}
         </Wrapper>
     );
 }

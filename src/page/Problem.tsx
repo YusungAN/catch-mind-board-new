@@ -3,12 +3,14 @@ import Canvas from "../components/Canvas";
 import s from "../css/problem.module.css";
 import { useNavigate } from "react-router-dom";
 import { submitProblem } from "../api/post";
+import { CanvasHandle } from "../components/Canvas/Canvas";
+import { Wrapper } from "../css/wrapper";
 
 
 const Problem = () => {
     const navigate = useNavigate();
 
-    const childRef = useRef<HTMLCanvasElement>(null);
+    const childRef = useRef<CanvasHandle>(null);
     const [is, setIs] = useState<boolean>(false);
 
     const [correct, setCorrect] = useState<string>("");
@@ -59,13 +61,12 @@ const Problem = () => {
     };
 
     return (
-        <>
+        <Wrapper>
             <div className={s.title}>당신의 창의력을 표현하세요</div>
             <div className={s.con}>
-                <div>
-                    *너무 빠르게 그리면 뻗을 수 있으니 주의! (개발자 역량 부족)
+                <div className={s.canvascon}>
+                    <Canvas onChange={pictureAddress} onDraw={() => {setIs(false)}} ref={childRef} />
                 </div>
-                <Canvas onChange={pictureAddress} onDraw={() => {setIs(false)}} ref={childRef} />
                 <input
                     type="text"
                     name="correct"
@@ -89,7 +90,7 @@ const Problem = () => {
                     onClick={sendData}
                 />
             </div>
-        </>
+        </Wrapper>
     );
 }
 

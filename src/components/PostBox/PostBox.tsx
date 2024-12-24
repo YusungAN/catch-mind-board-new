@@ -3,7 +3,7 @@ import { ProblemItem } from "../../api/response";
 
 
 const PostBox = (props: {problem: ProblemItem, open: (problem: ProblemItem) => void}) => {
-    const {id, imgdata, author, hint, isSolved} = props.problem;
+    const {id, imgdata, author, isSolved} = props.problem;
 
     return (
         <>

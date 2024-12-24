@@ -2,7 +2,7 @@ import axios, { Axios, AxiosRequestConfig, InternalAxiosRequestConfig } from 'ax
 import { APIResponse } from './response';
 
 const client: Axios = axios.create({
-    baseURL: 'http://localhost:8080',//'https://catch-mind-back.fly.dev',
+    baseURL: 'https://catch-mind-back.fly.dev',
     headers: {
         'Content-Type': 'application/json',
     }

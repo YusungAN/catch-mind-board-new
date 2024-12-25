@@ -87,12 +87,19 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
         );
     });
 
-    const getPosition = (e: MouseEvent) => {
-        return {
-            x: e.offsetX,
-            y: e.offsetY,
-        };
-    };
+    const getPosition = (e: MouseEvent | TouchEvent) => {
+        if ((e as MouseEvent).offsetX !== undefined) {
+            return {
+                x: (e as MouseEvent).offsetX,
+                y: (e as MouseEvent).offsetY,
+            };
+        } else {
+            return {
+                x: (e as TouchEvent).touches[0].clientX,
+                y: (e as TouchEvent).touches[0].clientX,
+            };
+        }
+    }
 
     const initDraw = (e: MouseEvent | TouchEvent) => {
         onDraw();

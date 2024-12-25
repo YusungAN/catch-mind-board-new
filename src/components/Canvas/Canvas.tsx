@@ -184,6 +184,10 @@ const EraserBtn = style.img<{erase: boolean}>`
     margin-bottom: 5px;
     box-shadow: -2px 2px 3px 2px rgba(0, 0, 0, 0.4);
     clip-path: circle(30px at center);
+    @media (max-width: 800px) {
+        width: 5vw;
+        height: 5vw;
+    }
 `;
 
 const FlexColumnWrapper = style.div`

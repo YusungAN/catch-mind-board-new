@@ -60,7 +60,7 @@ const Problem = () => {
     };
 
     return (
-        <>
+        <div style={{overflow: 'hidden'}}>
             <div className={s.title}>당신의 창의력을 표현하세요</div>
             <div className={s.con}>
                 <div className={s.canvascon}>
@@ -89,7 +89,7 @@ const Problem = () => {
                     onClick={sendData}
                 />
             </div>
-        </>
+        </div>
     );
 }
 

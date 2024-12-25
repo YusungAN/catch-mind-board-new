@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import style from "styled-components";
 import s from "../css/register.module.css";
 import { loginApi } from "../api/user";
-import { Wrapper } from "../css/wrapper";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -42,7 +41,7 @@ const Login = () => {
     };
 
     return (
-        <Wrapper>
+        <>
             <div className={s.flexwrapper}>
                 <Text>로그인</Text>
                 <input
@@ -72,7 +71,7 @@ const Login = () => {
                     onClick={sendData}
                 />
             </div>
-        </Wrapper>
+        </>
     );
 }
 

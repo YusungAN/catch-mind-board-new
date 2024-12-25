@@ -12,7 +12,7 @@ const loginApi = async (id: string, pw: string) => {
 
 const registerApi = async (id: string, pw: string, nickname: string) => {
     const res = await postData('/user/register', {id: id, pw: pw, nickname: nickname});
-    
+    console.log(res);
     return res;
 }
 

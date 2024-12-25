@@ -18,16 +18,6 @@ const Home = () => {
     const [isLogged, setIsLogged] = useState<boolean>(false);
 
     const tokenVerify = async () => {
-        // const {
-        //     data: {
-        //         success,
-        //         info: { nickname, id },
-        //     },
-        // } = await axios.get(
-        //     `https://anyusung.team/api/check?token=${localStorage["anyusung-team-token"]}`
-        // );
-        // localStorage.setItem("yusungan-userid", id);
-        // const {data : {response}} = await axios.get(`https://anyusung.team/api/score/${id}`);
         const token: string = localStorage['cmb-token'];
         const isLogged = !isTokenExpired(token);
         if (isLogged) {
@@ -53,14 +43,16 @@ const Home = () => {
         }
     };
 
-    const toProblem = async () => {
+    const linkWithLoginCheck = async (page: 'problem' | 'post') => {
         try {
-            if (isLogged) navigate("/problem");
+            console.log(isLogged);
+            if (isLogged) navigate(page);
             else alert("로그인 후 이용가능합니다!");
         } catch (e) {
             alert("로그인 후 이용가능합니다!");
         }
     };
+    
 
     useEffect(() => {
         tokenVerify();
@@ -90,15 +82,13 @@ const Home = () => {
             <div className={s.sizedbox}></div>
             <div className={s.title}>마음 잡기</div>
             <div className={s.con}>
-                <Link to="/post">
-                    <button className={s.psolve}>문제 풀기</button>
-                </Link>
-                <button className={s.pprob} onClick={toProblem}>
+                <button onClick={linkWithLoginCheck.bind(false, 'post')} className={s.psolve}>문제 풀기</button>
+                <button className={s.pprob} onClick={linkWithLoginCheck.bind(false, 'problem')}>
                     문제 내기
                 </button>
-                <Link to="/ranking">
-                    <button className={s.pprob}>랭킹 보기</button>
-                </Link>
+                {/* <Link to="/ranking"> */}
+                    <button onClick={() => navigate('/ranking')} className={s.pprob}>랭킹 보기</button>
+                {/* </Link> */}
             </div>
         </Wrapper>
     );

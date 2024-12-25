@@ -94,14 +94,14 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
         };
     };
 
-    const initDraw = (e: MouseEvent) => {
+    const initDraw = (e: MouseEvent | TouchEvent) => {
         onDraw();
         ctx.beginPath();
         pos = { drawable: true, ...getPosition(e) };
         ctx.moveTo(pos.x, pos.y);
     };
 
-    const draw = (e: MouseEvent) => {
+    const draw = (e: MouseEvent | TouchEvent) => {
         if (pos.drawable) {
             pos = { ...pos, ...getPosition(e) };
             ctx.lineTo(pos.x, pos.y);
@@ -130,6 +130,11 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", finishDraw);
         canvas.addEventListener("mouseout", finishDraw);
+
+        canvas.addEventListener("touchstart", initDraw);
+        canvas.addEventListener("touchmove", draw);
+        canvas.addEventListener("touchend", finishDraw);
+        canvas.addEventListener("touchcancel", finishDraw);
         onChange(nowCanvas);
         const image = new Image();
         image.src = nowCanvas;

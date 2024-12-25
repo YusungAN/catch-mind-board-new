@@ -36,8 +36,8 @@ const Login = () => {
                 alert("로그인 성공!");
                 navigate("/");
             }
-        } catch (e) {
-            alert(`로그인 실패!\n`);
+        } catch (err) {
+            alert(`로그인 실패!\n${err}`);
         }
     };
 

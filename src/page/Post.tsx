@@ -4,7 +4,6 @@ import PostBox from "../components/PostBox";
 import PopUp from '../components/PopUp';
 import { getProblems, getUserSolvedProblems } from "../api/post";
 import { ProblemItem } from "../api/response";
-import { Wrapper } from "../css/wrapper";
 
 function Post() {
     const [posts, setPosts] = useState<ProblemItem[]>();
@@ -67,14 +66,14 @@ function Post() {
     // }, []);
 
     return (
-        <Wrapper>
+        <>
             <Text>재밌는 그림들^^</Text>
             <FlexContainer>
                 { posts === undefined ? "로딩중..." 
                 : posts.map((item, index) => <PostBox key={index} problem={item} open={openPopUp} />)}
                 <PopUp display={popUpOpened} close={closePopUp} problem={selectedPost} />
             </FlexContainer>
-        </Wrapper>
+        </>
     );
 }
 

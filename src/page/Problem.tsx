@@ -4,7 +4,6 @@ import s from "../css/problem.module.css";
 import { useNavigate } from "react-router-dom";
 import { submitProblem } from "../api/post";
 import { CanvasHandle } from "../components/Canvas/Canvas";
-import { Wrapper } from "../css/wrapper";
 
 
 const Problem = () => {
@@ -61,7 +60,7 @@ const Problem = () => {
     };
 
     return (
-        <Wrapper>
+        <>
             <div className={s.title}>당신의 창의력을 표현하세요</div>
             <div className={s.con}>
                 <div className={s.canvascon}>
@@ -90,7 +89,7 @@ const Problem = () => {
                     onClick={sendData}
                 />
             </div>
-        </Wrapper>
+        </>
     );
 }
 

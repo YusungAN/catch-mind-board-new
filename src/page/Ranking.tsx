@@ -83,6 +83,9 @@ const Text = style.div`
     font-family: "Do Hyeon", sans-serif;
     text-align: center;
     margin-bottom: 50px;
+    @media (max-width: 800px) {
+        font-size: 3rem;
+    }
 `;
 
 const Wrapper = style.div`

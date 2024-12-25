@@ -30,18 +30,26 @@ const Wrapper = style.div`
 
 const UpperItem = style.div<{color: number}>`
     width: ${props => props.color <= 2 ? '800px' : '500px'};
+    max-width: 100vw;
     height: ${props => props.color <= 2 ? '200px' : '120px'};
     background-color: ${props => props.color <= 2 ? colorArr[props.color] : 'cyan'};
     line-height: ${props => props.color <= 2 ? '200px' : '120px'};
     font-size: ${props => props.color <= 2 ? '70px' : '40px'};
     overflow: auto;
+    @media (max-width: 800px) {
+        font-size: ${props => props.color <= 2 ? '40px' : '30px'};
+    }
 `;
 
 const BelowItem = style.div<{color: number}>`
     width: ${props => props.color <= 2 ? '800px' : '500px'};
+    max-width: 100vw;
     height: ${props => props.color <= 2 ? '200px' : '120px'};
     line-height: ${props => props.color <= 2 ? '200px' : '120px'};
     font-size: ${props => props.color <= 2 ? '60px' : '35px'};
+     @media (max-width: 800px) {
+        font-size: ${props => props.color <= 2 ? '30px' : '20px'};
+    }
 `;
 
 export default RankingBlock;

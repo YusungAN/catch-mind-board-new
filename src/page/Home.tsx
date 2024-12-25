@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import style from "styled-components";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 import { isTokenExpired } from "../util/token";
-import { Wrapper } from "../css/wrapper";
 
 interface CustomPayload extends JwtPayload {
     id?: string;
@@ -59,7 +58,7 @@ const Home = () => {
     }, []);
 
     return (
-        <Wrapper>
+        <>
             <FlexWrapper>
                 {!isLogged ? (
                     <>
@@ -90,7 +89,7 @@ const Home = () => {
                     <button onClick={() => navigate('/ranking')} className={s.pprob}>랭킹 보기</button>
                 {/* </Link> */}
             </div>
-        </Wrapper>
+        </>
     );
 }
 

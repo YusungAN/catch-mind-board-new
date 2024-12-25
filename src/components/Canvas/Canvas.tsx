@@ -94,9 +94,14 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
                 y: (e as MouseEvent).offsetY,
             };
         } else {
-            return {
+            console.log({
                 x: (e as TouchEvent).touches[0].clientX,
-                y: (e as TouchEvent).touches[0].clientX,
+                y: (e as TouchEvent).touches[0].clientY,
+            });
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: (e as TouchEvent).touches[0].clientX - rect.left,
+                y: (e as TouchEvent).touches[0].clientY - rect.top,
             };
         }
     }
@@ -111,6 +116,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
     const draw = (e: MouseEvent | TouchEvent) => {
         if (pos.drawable) {
             pos = { ...pos, ...getPosition(e) };
+            console.log('asdf', pos);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
         }

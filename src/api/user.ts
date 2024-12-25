@@ -16,8 +16,6 @@ const registerApi = async (id: string, pw: string, nickname: string) => {
     return res;
 }
 
-
-
 export {
     loginApi,
     registerApi

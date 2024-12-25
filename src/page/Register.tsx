@@ -3,7 +3,6 @@ import style from 'styled-components';
 import s from '../css/register.module.css';
 import { useNavigate } from "react-router-dom";
 import { registerApi } from '../api/user';
-import { Wrapper } from '../css/wrapper';
 
 
 const Register = () => {
@@ -47,7 +46,7 @@ const Register = () => {
     }
 
     return (
-        <Wrapper>
+        <>
             <div className={s.flexwrapper}>
                 <Text>회원 가입</Text>
                 <input type="text" name="id" placeholder="사용할 id 입력" className={s.input} value={id} onChange={handleInput} autoFocus />
@@ -55,7 +54,7 @@ const Register = () => {
                 <input type="text" name="nickname" placeholder="사용할 닉네임 입력" className={s.input} value={nickName} onChange={handleInput} onKeyPress={enterKey} />
                 <input type="submit" name="submit" value="회원가입" className={s.submit} onClick={sendData} />
             </div>
-        </Wrapper>
+        </>
     );
 }
 

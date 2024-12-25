@@ -30,3 +30,11 @@
     border-radius: 50px;
     margin-right: 20px;
 }
+
+@media (max-width: 800px) {
+    .title {
+        font-size: 6.5rem;
+        font-family: "Do Hyeon", sans-serif;
+        text-align: center;
+    }
+}

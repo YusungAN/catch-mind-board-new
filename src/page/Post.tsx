@@ -52,11 +52,19 @@ function Post() {
     const closePopUp = () => {
         setPopUpOpened(false);
         setSelectedPost(undefined);
+        getPosts();
     }
 
     useEffect(() => {
         getPosts();
     }, []);
+
+    // useEffect(() => {
+    //     console.log(popUpOpened);
+    //     if (popUpOpened == false) {
+    //         getPosts();
+    //     }
+    // }, []);
 
     return (
         <Wrapper>

@@ -59,6 +59,7 @@ function PopUp(props: PopUpProps) {
                 setTimeout(() => {
                     setIsCor("");
                     setCorrect("");
+                    close();
                 }, 1000);
             } else  {
                 setIsCor(response === '' || response === undefined ? "땡!!!!!!!!!!" : response!);

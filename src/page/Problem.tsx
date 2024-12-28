@@ -55,8 +55,8 @@ const Problem = () => {
         setHint(value);
     };
 
-    const pictureAddress = async (address: string) => {
-        await setPicture(address);
+    const pictureAddress = (address: string) => {
+        setPicture(address);
     };
 
     return (

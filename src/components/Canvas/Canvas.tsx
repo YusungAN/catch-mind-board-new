@@ -44,7 +44,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
     useImperativeHandle(ref, () => {
         return {
             savePicture: async () => {
-                console.log(canvas.toDataURL());
+                // console.log(canvas.toDataURL());
                 setNowCanvas(canvas.toDataURL());
                 onChange(canvas.toDataURL());
                 const image = new Image();
@@ -94,11 +94,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
                 y: (e as MouseEvent).offsetY,
             };
         } else {
-            console.log({
-                x: (e as TouchEvent).touches[0].clientX,
-                y: (e as TouchEvent).touches[0].clientY,
-            });
-            var rect = canvas.getBoundingClientRect();
+            const rect = canvas.getBoundingClientRect();
             return {
                 x: (e as TouchEvent).touches[0].clientX - rect.left,
                 y: (e as TouchEvent).touches[0].clientY - rect.top,
@@ -116,7 +112,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
     const draw = (e: MouseEvent | TouchEvent) => {
         if (pos.drawable) {
             pos = { ...pos, ...getPosition(e) };
-            console.log('asdf', pos);
+            // console.log('asdf', pos);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
         }
@@ -133,12 +129,22 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
     };
 
     const innerUseEffect = () => {
+        console.log('canvas useEffect');
         canvas = canvasRef.current!;
         ctx = canvas.getContext("2d")!;
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = nowColor;
         ctx.lineWidth = erase ? 10 : 1;
+        
+        onChange(nowCanvas);
+        const image = new Image();
+        image.src = nowCanvas;
+        ctx.drawImage(image, 0, 0);
+    };
+
+    useEffect(() => {
+        canvas = canvasRef.current!;
         canvas.addEventListener("mousedown", initDraw);
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", finishDraw);
@@ -148,11 +154,7 @@ const Canvas = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
         canvas.addEventListener("touchmove", draw);
         canvas.addEventListener("touchend", finishDraw);
         canvas.addEventListener("touchcancel", finishDraw);
-        onChange(nowCanvas);
-        const image = new Image();
-        image.src = nowCanvas;
-        ctx.drawImage(image, 0, 0);
-    };
+    }, []);
 
     useEffect(() => {
         innerUseEffect();

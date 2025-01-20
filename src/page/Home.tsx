@@ -71,7 +71,7 @@ const Home = () => {
                     </>
                 ) : (
                     <>
-                        <FlexItem>'{nickName}'님 ㅎㅇ ||</FlexItem>
+                        <FlexItem>'{nickName}'님 안녕하세요 ||</FlexItem>
                         <FlexItem>
                             <div onClick={logout}>로그아웃</div>
                         </FlexItem>

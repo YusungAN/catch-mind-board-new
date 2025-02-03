@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import style from "styled-components";
 import { ProblemItem } from "../../api/response";
 import { checkAnswer } from "../../api/post";
+import useLoading from "../../hook/useLoading";
+import { BeatLoader } from "react-spinners";
 
 interface PopUpProps {
     display: boolean;
@@ -13,8 +15,9 @@ function PopUp(props: PopUpProps) {
 
     const {display, close, problem} = props;
 
-    const [isCor, setIsCor] = useState<string>("");
-    const [correct, setCorrect] = useState<string>("");
+    const [isCor, setIsCor] = useState<boolean | undefined>(undefined);
+    const [answer, setAnswer] = useState<string>("");
+    const [bgColor, setBgColor] = useState<string>("lightgrey");
 
     const PopUpStyle: React.CSSProperties = {
         position: "fixed",
@@ -22,7 +25,7 @@ function PopUp(props: PopUpProps) {
         left: "50%",
         width: "400px",
         height: "600px",
-        backgroundColor: "lightgrey",
+        backgroundColor: bgColor,
         display: display ? "flex" : "none",
         borderRadius: "25px",
         marginLeft: "-200px",
@@ -38,42 +41,45 @@ function PopUp(props: PopUpProps) {
         marginTop: "10px",
     };
 
-    const inputCorrect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCorrect(e.target.value);
+    const inputAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAnswer(e.target.value);
     };
 
     const enterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            checkCorrect();
+            handleSubmit();
         }
     }
 
     const checkCorrect = async () => {
         try {
-            setIsCor("엄...");
-            // console.log(Logged, id);
-            const { response, data: {isCorrect} } = await checkAnswer(problem!.id, correct);
+            const {data: {isCorrect} } = await checkAnswer(problem!.id, answer);
 
             if (isCorrect) {
-                setIsCor("정답!!!!!!");
+                setIsCor(true);
+                setBgColor("green");
                 setTimeout(() => {
-                    setIsCor("");
-                    setCorrect("");
+                    setIsCor(undefined);
+                    setAnswer("");
+                    setBgColor("lightgrey");
                     close();
                 }, 1000);
-            } else  {
-                setIsCor(response === '' || response === undefined ? "땡!!!!!!!!!!" : response!);
+            } else {
+                setIsCor(false);
+                setBgColor('tomato');
                 setTimeout(() => {
-                    setIsCor("");
-                    setCorrect("");
+                    setIsCor(undefined);
+                    setAnswer("");
+                    setBgColor("lightgrey");
                 }, 1000);
             }
         } catch (e) {
             console.log(e);
-            setIsCor("정답 확인에 실패했어요. 로그인은 하셨나요?");
-            setTimeout(() => setIsCor(""), 1000);
+            alert(`정답 확인에 실패했어요`);
         }
     };
+
+    const [isLoading, handleSubmit] = useLoading(checkCorrect);
 
     return (
         <>
@@ -101,8 +107,8 @@ function PopUp(props: PopUpProps) {
                             type="text"
                             name="correct"
                             style={Input}
-                            value={correct}
-                            onChange={inputCorrect}
+                            value={answer}
+                            onChange={inputAnswer}
                             placeholder="정답을 입력하세요"
                             onKeyPress={enterKey}
                         />
@@ -110,12 +116,13 @@ function PopUp(props: PopUpProps) {
                             type="submit"
                             name="submit"
                             value="정답 확인"
-                            onClick={checkCorrect}
+                            onClick={handleSubmit}
                         />
-                        <div>{isCor}</div>
+                        {isLoading ? <BeatLoader size={10} /> : <></>}
+                        <div>{isCor ? "정답!!!" : (isCor === false ? '오답!!!!' : '')}</div>
                     </>
                 ) : (
-                    <div>로딩중...</div>
+                    <BeatLoader />
                 )}
             </div>
         </>

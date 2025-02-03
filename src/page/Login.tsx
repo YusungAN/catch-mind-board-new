@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import style from "styled-components";
 import s from "../css/register.module.css";
 import { loginApi } from "../api/user";
+import useLoading from "../hook/useLoading";
+import { BeatLoader } from "react-spinners";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -21,7 +23,7 @@ const Login = () => {
 
     const enterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            sendData();
+            handleLogin();
         }
     }
 
@@ -39,6 +41,8 @@ const Login = () => {
             alert(`로그인 실패!\n${err}`);
         }
     };
+
+    const [isLoading, handleLogin] = useLoading(sendData);
 
     return (
         <>
@@ -62,14 +66,16 @@ const Login = () => {
                     onChange={handleInput}
                     onKeyPress={enterKey}
                 />
-                <input
+                <button
                     type="submit"
                     name="submit"
-                    value="로그인"
                     className={s.submit}
                     style={{ marginTop: 20 }}
-                    onClick={sendData}
-                />
+                    onClick={handleLogin}
+                >
+                    <span>로그인</span>
+                    {isLoading ? <BeatLoader size={10}></BeatLoader> : <></>}
+                </button>
             </div>
         </>
     );

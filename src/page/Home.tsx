@@ -10,7 +10,6 @@ interface CustomPayload extends JwtPayload {
     nickname?: string;
 }
 
-
 const Home = () => {
     const navigate = useNavigate();
     const [nickName, setNickName] = useState<string>("");

@@ -3,12 +3,11 @@ import { ProblemItem } from "../../api/response";
 
 
 const PostBox = (props: {problem: ProblemItem, open: (problem: ProblemItem) => void}) => {
-    const {id, imgdata, author, isSolved} = props.problem;
+    const {imgdata, author, isSolved} = props.problem;
 
     return (
         <>
             <PostBoxElement color={isSolved!} onClick={() => props.open(props.problem)}>
-                <div>{id}</div>
                 <div
                     style={{
                         width: 145,
@@ -23,7 +22,7 @@ const PostBox = (props: {problem: ProblemItem, open: (problem: ProblemItem) => v
                         alt="그림 준비중"
                     />
                 </div>
-                <div>출제자: {author}</div>
+                <div style={{marginTop: '5px', color: ''}}>출제자: {author}</div>
             </PostBoxElement>
         </>
     );
@@ -38,6 +37,7 @@ const PostBoxElement = style.div<{color: boolean}>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin-left: 30px;
     margin-right: 30px;
     margin-bottom: 30px;

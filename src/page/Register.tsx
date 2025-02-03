@@ -3,6 +3,8 @@ import style from 'styled-components';
 import s from '../css/register.module.css';
 import { useNavigate } from "react-router-dom";
 import { registerApi } from '../api/user';
+import useLoading from '../hook/useLoading';
+import { BeatLoader } from "react-spinners";
 
 
 const Register = () => {
@@ -24,7 +26,7 @@ const Register = () => {
 
     const enterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            sendData();
+            handleRegister();
         }
     }
 
@@ -42,17 +44,21 @@ const Register = () => {
             alert(`회원가입 실패!`);
 
         }
-        
     }
+
+    const [isLoading, handleRegister] = useLoading(sendData);
 
     return (
         <>
             <div className={s.flexwrapper}>
                 <Text>회원 가입</Text>
                 <input type="text" name="id" placeholder="사용할 id 입력" className={s.input} value={id} onChange={handleInput} autoFocus />
-                <input type="password" name="pw" className={s.input} placeholder="사용할 비밀번호, 대충 지으세요" value={pw} onChange={handleInput} />
+                <input type="password" name="pw" className={s.input} placeholder="사용할 비밀번호" value={pw} onChange={handleInput} />
                 <input type="text" name="nickname" placeholder="사용할 닉네임 입력" className={s.input} value={nickName} onChange={handleInput} onKeyPress={enterKey} />
-                <input type="submit" name="submit" value="회원가입" className={s.submit} onClick={sendData} />
+                <button type="submit" name="submit"className={s.submit} onClick={handleRegister}>
+                    <span>회원가입</span>
+                    {isLoading ? <BeatLoader size={10}></BeatLoader> : <></>}
+                </button>
             </div>
         </>
     );
